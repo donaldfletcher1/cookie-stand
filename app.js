@@ -1,236 +1,69 @@
 'use strict';
 let hoursArray = ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm','2pm' ,'3pm', '4pm', '5pm', '6pm', '7pm']
-let salesSection = document.getElementById('cookieSales')
+let table = document.getElementById('cookieSales')
 
-let seattle = {
-    title: "Seattle",
-    minCustomers: 23,
-    maxCustomers: 65,
-    averageCookies: 6.3,
-    cookiesPerHour: [],
-    totalCookies: 0,
-    getRandomArbitraryCustomerNumber: function () {
-        let randomNumber = Math.random() * (this.maxCustomers - this.minCustomers) + this.minCustomers;
-        return Math.round(randomNumber)
-    },
-    getAverageCookies: function () {
-        for (let i = 0; i < hoursArray.length; i++) {
-            let customerNumber = this.getRandomArbitraryCustomerNumber();
-            let cookieNumber = customerNumber * this.averageCookies;
-            let roundedCookieNumber = Math.round(cookieNumber)
-            this.totalCookies += roundedCookieNumber;
-            this.cookiesPerHour.push(roundedCookieNumber)
-        }
-    },
-    renderStore: function () {
-        this.getAverageCookies()
-
-        let titleElement = document.createElement('h1')
-        titleElement.textContent = this.title;
-        salesSection.appendChild(titleElement)
-
-        let listElement = document.createElement('ul')
-        salesSection.appendChild(listElement)
-
-        for (let i = 0; i < hoursArray.length; i++) {
-            let listItemElement = document.createElement('li')
-            listItemElement.textContent = `${hoursArray[i]}: ${this.cookiesPerHour[i]} cookies`
-            listElement.appendChild(listItemElement)
-        }
-
-        let totalListElement = document.createElement('li')
-        totalListElement.textContent = `Total: ${this.totalCookies} Cookies`
-        listElement.appendChild(totalListElement)
-
-    }
+// constructor function
+function CookieStore(title,minCustomers,maxCustomers,averageCookies){
+    this.title = title;
+    this.minCustomers = minCustomers;
+    this.maxCustomers = maxCustomers;
+    this.averageCookies = averageCookies;
+    this.cookiesPerHour = [];
+    this.totalCookies = 0;
 }
 
-
-
-
-
-
-let tokyo = {
-    title: "Tokyo",
-    minCustomers: 3,
-    maxCustomers: 24,
-    averageCookies: 1.2,
-    cookiesPerHour: [],
-    totalCookies: 0,
-    getRandomArbitraryCustomerNumber: function () {
-        let randomNumber = Math.random() * (this.maxCustomers - this.minCustomers) + this.minCustomers;
-        return Math.round(randomNumber)
-    },
-    getAverageCookies: function () {
-        for (let i = 0; i < hoursArray.length; i++) {
-            let customerNumber = this.getRandomArbitraryCustomerNumber();
-            let cookieNumber = customerNumber * this.averageCookies;
-            let roundedCookieNumber = Math.round(cookieNumber)
-            this.totalCookies += roundedCookieNumber;
-            this.cookiesPerHour.push(roundedCookieNumber)
-        }
-    },
-    renderStore: function () {
-        this.getAverageCookies()
-
-        let titleElement = document.createElement('h1')
-        titleElement.textContent = this.title;
-        salesSection.appendChild(titleElement)
-
-        let listElement = document.createElement('ul')
-        salesSection.appendChild(listElement)
-
-        for (let i = 0; i < hoursArray.length; i++) {
-            let listItemElement = document.createElement('li')
-            listItemElement.textContent = `${hoursArray[i]}: ${this.cookiesPerHour[i]} cookies`
-            listElement.appendChild(listItemElement)
-        }
-
-        let totalListElement = document.createElement('li')
-        totalListElement.textContent = `Total: ${this.totalCookies} Cookies`
-        listElement.appendChild(totalListElement)
-
+//prototype functions
+CookieStore.prototype.getRandomArbitraryCustomerNumber= function () {
+    let randomNumber = Math.random() * (this.maxCustomers - this.minCustomers) + this.minCustomers;
+    return Math.round(randomNumber)
+};
+CookieStore.prototype.getAverageCookies= function () {
+    for (let i = 0; i < hoursArray.length; i++) {
+        let customerNumber = this.getRandomArbitraryCustomerNumber();
+        let cookieNumber = customerNumber * this.averageCookies;
+        let roundedCookieNumber = Math.round(cookieNumber)
+        this.totalCookies += roundedCookieNumber;
+        this.cookiesPerHour.push(roundedCookieNumber)
     }
-}
+};
 
+CookieStore.prototype.renderStore= function () {
+    this.getAverageCookies()
 
-
-
-let dubai = {
-    title: "Dubai",
-    minCustomers: 11,
-    maxCustomers: 38,
-    averageCookie: 3.7,
-    cookiesPerHour: [],
-    totalCookies: 0,
-    getRandomArbitraryCustomerNumber: function () {
-        let randomNumber = Math.random() * (this.maxCustomers - this.minCustomers) + this.minCustomers;
-        return Math.round(randomNumber)
-    },
-    getAverageCookies: function () {
-        for (let i = 0; i < hoursArray.length; i++) {
-            let customerNumber = this.getRandomArbitraryCustomerNumber();
-            let cookieNumber = customerNumber * this.averageCookie;
-            let roundedCookieNumber = Math.round(cookieNumber)
-            this.totalCookies += roundedCookieNumber;
-            this.cookiesPerHour.push(roundedCookieNumber)
-        }
-    },
-    renderStore: function () {
-        this.getAverageCookies()
-console.log(this.cookiesPerHour)
-        let titleElement = document.createElement('h1')
-        titleElement.textContent = this.title;
-        salesSection.appendChild(titleElement)
-
-        let listElement = document.createElement('ul')
-        salesSection.appendChild(listElement)
-
-        for (let i = 0; i < hoursArray.length; i++) {
-            let listItemElement = document.createElement('li')
-            listItemElement.textContent = `${hoursArray[i]}: ${this.cookiesPerHour[i]} cookies`
-            listElement.appendChild(listItemElement)
-        }
-
-        let totalListElement = document.createElement('li')
-        totalListElement.textContent = `Total: ${this.totalCookies} Cookies`
-        listElement.appendChild(totalListElement)
-
+    let rowElement = document.createElement('tr')
+    table.appendChild(rowElement)
+    
+    let titlecellElement = document.createElement('th')
+    titlecellElement.textContent = this.title;
+    rowElement.appendChild(titlecellElement)
+    
+    for (let i = 0; i < hoursArray.length; i++) {
+        let tabledataElement = document.createElement('td')
+        tabledataElement.textContent = this.cookiesPerHour[i]
+        rowElement.appendChild(tabledataElement)
     }
-}
 
+    let totalDataElement = document.createElement('td')
+    totalDataElement.textContent = this.totalCookies
+    rowElement.appendChild(totalDataElement)
 
-
-
-let paris = {
-    title: "Paris",
-    minCustomers: 20,
-    maxCustomers: 38,
-    averageCookie: 2.3,
-    cookiesPerHour: [],
-    totalCookies: 0,
-    getRandomArbitraryCustomerNumber: function () {
-        let randomNumber = Math.random() * (this.maxCustomers - this.minCustomers) + this.minCustomers;
-        return Math.round(randomNumber)
-    },
-    getAverageCookies: function () {
-        for (let i = 0; i < hoursArray.length; i++) {
-            let customerNumber = this.getRandomArbitraryCustomerNumber();
-            let cookieNumber = customerNumber * this.averageCookie;
-            let roundedCookieNumber = Math.round(cookieNumber)
-            this.totalCookies += roundedCookieNumber;
-            this.cookiesPerHour.push(roundedCookieNumber)
-        }
-    },
-    renderStore: function () {
-        this.getAverageCookies()
-
-        let titleElement = document.createElement('h1')
-        titleElement.textContent = this.title;
-        salesSection.appendChild(titleElement)
-
-        let listElement = document.createElement('ul')
-        salesSection.appendChild(listElement)
-
-        for (let i = 0; i < hoursArray.length; i++) {
-            let listItemElement = document.createElement('li')
-            listItemElement.textContent = `${hoursArray[i]}: ${this.cookiesPerHour[i]} cookies`
-            listElement.appendChild(listItemElement)
-        }
-
-        let totalListElement = document.createElement('li')
-        totalListElement.textContent = `Total: ${this.totalCookies} Cookies`
-        listElement.appendChild(totalListElement)
-
-    }
-}
+};
 
 
 
 
 
-let lima = {
-    title:"Lima",
-    minCustomers: 2,
-    maxCustomers: 16,
-    averageCookie: 4.6,
-    cookiesPerHour: [],
-    totalCookies: 0,
-    getRandomArbitraryCustomerNumber: function () {
-        let randomNumber = Math.random() * (this.maxCustomers - this.minCustomers) + this.minCustomers;
-        return Math.round(randomNumber)
-    },
-    getAverageCookies: function () {
-        for (let i = 0; i < hoursArray.length; i++) {
-            let customerNumber = this.getRandomArbitraryCustomerNumber();
-            let cookieNumber = customerNumber * this.averageCookie;
-            let roundedCookieNumber = Math.round(cookieNumber)
-            this.totalCookies += roundedCookieNumber;
-            this.cookiesPerHour.push(roundedCookieNumber)
-        }
-    },
-    renderStore: function () {
-        this.getAverageCookies()
+let seattle = new CookieStore('seattle',23,65,6.3)
+console.log(seattle)
 
-        let titleElement = document.createElement('h1')
-        titleElement.textContent = this.title;
-        salesSection.appendChild(titleElement)
+let tokyo = new CookieStore('Tokyo',3,24,1.2)
 
-        let listElement = document.createElement('ul')
-        salesSection.appendChild(listElement)
+let dubai = new CookieStore('dubai',11,38,3.7)
 
-        for (let i = 0; i < hoursArray.length; i++) {
-            let listItemElement = document.createElement('li')
-            listItemElement.textContent = `${hoursArray[i]}: ${this.cookiesPerHour[i]} cookies`
-            listElement.appendChild(listItemElement)
-        }
+let paris = new CookieStore('Paris',20,38,2.3)
 
-        let totalListElement = document.createElement('li')
-        totalListElement.textContent = `Total: ${this.totalCookies} Cookies`
-        listElement.appendChild(totalListElement)
+let lima = new CookieStore('lima',2,16,4.6)
 
-    }
-}
 
 
 
